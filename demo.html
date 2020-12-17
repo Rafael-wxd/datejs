@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title></title>
+</head>
+<body>
+
+</body>
+<script type="text/javascript" src="./datejs.js"></script>
+<script type="text/javascript">
+console.log('获取当前时间', datejs());
+console.log('获取设置的时间(string)', datejs('2020-12-17'))
+console.log('获取设置时时间(Date)', datejs(new Date(2020, 12, 17)))
+console.log('克隆当前时间对象', datejs().clone())
+console.log('是否是正确的日期格式', datejs().isValid())
+console.log('获取年', datejs().year())
+console.log('获取月', datejs().month())
+console.log('获取日', datejs().day())
+console.log('获取时', datejs().hours())
+console.log('获取分', datejs().minutes())
+console.log('获取秒', datejs().seconds())
+console.log('获取毫秒', datejs().milliseconds())
+console.log('获取周', datejs().week())
+console.log('UTC字符串', datejs().toString())
+console.log('检查一个 datejs 对象是否在另一个 datejs 对象时间之前', datejs().isBefore(datejs('2020-06-02')))
+console.log('检查一个 datejs 对象是否和另一个 datejs 对象时间相同', datejs().isSame(datejs()))
+console.log('检查一个 datejs 对象是否在另一个 datejs 对象时间之后', datejs().isAfter(datejs()))
+</script>
+</html>

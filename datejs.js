@@ -1,29 +1,6 @@
 // 日期的方法
 
 // -------
-//  ~当前时间
-//    datejs()
-//  
-//  ~时间字符串
-//    datejs('2018-06-03')
-//  
-//  ~时间戳
-//    datejs(1528361259484)
-//  
-//  ~Date 对象
-//    datejs(new Date(2018,8,18))
-//  
-//  ~复制
-//    datejs().clone()
-//  
-//  ~检测当前 datejs 对象是否是一个有效的时间
-//    datejs().isValid()
-//  
-//  ~获取
-//    年 ： datejs().year()
-//    月 ： datejs().month()
-//    日 ： datejs().date()
-//    星期 ： datejs().day()
 //    时 ： datejs().hour()
 //    分 ： datejs().minute()
 //    秒 ： datejs().second()
@@ -32,68 +9,6 @@
 //  ~设置
 //    datejs().set('year',2017)
 //    datejs().set('month',9)
-//    
-//  ~增加时间并返回一个新的 datejs() 对象
-//  
-//    datejs().add(7, 'day')
-//    datejs().add(7, 'year')
-//    
-//  ~减少时间并返回一个新的 datejs() 对象
-//    datejs().subtract(7, 'year')
-//    datejs().subtract(7, 'month')
-//    
-//  ~返回当前时间的开头时间的 datejs() 对象，如月份的第一天。
-//    datejs().startOf('year')
-//    datejs().startOf('month')
-//  
-//  ~返回当前时间的末尾时间的 datejs() 对象，如月份的最后一天。
-//    datejs().endOf('month')
-//    datejs().endOf('year')
-//  
-//  ~格式化
-//    datejs().format()
-//    datejs().format('YYYY-MM-DD dddd HH:mm:ss.SSS A')
-//  
-//  ~时间差
-//    datejs('2018-06-08').diff(datejs('2017-06-01'), 'years')
-//    datejs('2018-06-08').diff(datejs('2017-06-01'), 'day')
-//    datejs('2018-06-08').diff(datejs('2017-06-01'), 'hour')
-//  
-//  ~Unix 时间戳 (毫秒)
-//    datejs().valueOf()
-//  
-//  ~Unix 时间戳 (秒)
-//    datejs().unix()
-//  
-//  ~返回月份的天数
-//    datejs().daysInMonth()
-//  
-//  ~返回原生的 Date 对象
-//    datejs().toDate()
-//  
-//  ~返回包含时间数值的数组
-//    datejs().toArray()
-//  
-//  ~当序列化 datejs 对象时，会返回 ISO8601 格式的字符串
-//    datejs().toJSON() //2018-06-08T02:44:30.599Z
-//  
-//  ~返回 ISO8601 格式的字符串
-//    datejs().toISOString() //2018-06-08T02:46:06.554Z
-//  
-//  ~返回包含时间数值的对象
-//    datejs().toObject()
-//  
-//  ~字符串
-//    datejs().toString()
-//  
-//  ~检查一个 datejs 对象是否在另一个 datejs 对象时间之前
-//    datejs('2018-06-01').isBefore(datejs('2018-06-02'))
-//  
-//  ~检查一个 datejs 对象是否和另一个 datejs 对象时间相同
-//    datejs().isSame(datejs())
-//  
-//  ~检查一个 datejs 对象是否在另一个 datejs 对象时间之后
-//    datejs().isAfter(datejs())
 //    
 //   ~日期格式
 //    ------------------------------------------------------------
@@ -144,13 +59,12 @@ const repairStart = (string, length, pad) => {
 }
 
 const monthDiff = (a, b) => {
-  if (a.$day < b.$day) return -monthDiff(b, a);
   const countMonth = ((b.$year - a.$year) * 12) + (b.$month - a.$month);
   const anchor = a.clone().add('month', countMonth);
   const c = b.$date - anchor.$date < 0;
   const anchor2 = a.clone().add('month', countMonth + (c ? -1 : 1));
 
-  return +(-(countMonth + ((b.$date - anchor.$date) / (c ? (anchor.$date - anchor2.$date) :
+  return +((countMonth + ((b.$date - anchor.$date) / (c ? (anchor.$date - anchor2.$date) :
     (anchor2.$date - anchor.$date)))) || 0);
 }
 
@@ -340,7 +254,7 @@ class Datejs {
     });
   }
   // 时间差
-  diff (diffDate, key, float) {
+  diff (diffDate, key, floor) {
     const startDate = this;
     const endDate = datejs(diffDate);
     const zoneDelta = (endDate.utcOffset() - startDate.utcOffset()) * 60;
@@ -355,7 +269,7 @@ class Datejs {
       seconds: seconds,
       milliseconds: seconds * 1000,
     }[key];
-    return float ? ret : ret < 0 ? Math.ceil(ret) || 0 : Math.floor(ret);
+    return floor ? Number(ret.toFixed(2)) : ret < 0 ? Math.ceil(ret) || 0 : Math.floor(ret);
   }
   utcOffset () {
     return -Math.round(this.$date.getTimezoneOffset() / 15) * 15;
@@ -429,5 +343,8 @@ Object.keys(dateFunction).forEach((key) => {
     return this['$' + key];
   }
 });
+dateProto['week'] = function () {
+  return this['$week'];
+};
 
-export default datejs;
+ // export default datejs;
