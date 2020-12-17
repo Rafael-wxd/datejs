@@ -295,4 +295,5 @@ dateProto['week'] = function () {
   return this['$week'];
 };
 
- // export default datejs;
+// vue/node等可解开导入使用
+// export default datejs;
